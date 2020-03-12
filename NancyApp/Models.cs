@@ -17,6 +17,53 @@ namespace NancyApp
         public string Status { get; set; }
     }
 
+    public class UserInfo
+    {
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public DateTime RecDate { get; set; }
+    }
+
+    public class UserInfoModule : NancyModule
+    {
+        private static List<UserInfo> users = new List<UserInfo>()
+        {
+            new UserInfo() {
+                Login = "user1",
+                Password = "qwerty1",
+                RecDate = new DateTime(2020, 3, 5, 11, 30, 22)
+            },
+            new UserInfo() {
+                Login = "user2",
+                Password = "qwerty2",
+                RecDate = new DateTime(2020, 3, 5, 12, 30, 22)
+            }
+        };
+
+        public UserInfoModule()
+        {
+            Get("/users", parameters =>
+            {
+                return users;
+            });
+
+            Get("/users/{id}", parameters =>
+            {
+                if (users.Count > 0)
+                    return users[parameters.id - 1];
+                else
+                    return "";
+            });
+
+            Post("/users", parameters =>
+            {
+                var model = this.Bind<UserInfo>();
+                users.Add(model);
+                return users.Count.ToString();
+            });
+        }
+    }
+
     public class DinosaurModule : NancyModule
     {
         private static Dinosaur dinosaur = new Dinosaur()
