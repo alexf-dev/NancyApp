@@ -21,7 +21,8 @@ namespace NancyApp
     {
         public string Login { get; set; }
         public string Password { get; set; }
-        public DateTime RecDate { get; set; }
+        public string RecDateText { get; set; }
+        public DateTime RecDate { get { return DateTime.Parse(RecDateText); } }
     }
 
     public class UserInfoModule : NancyModule
@@ -31,12 +32,12 @@ namespace NancyApp
             new UserInfo() {
                 Login = "user1",
                 Password = "qwerty1",
-                RecDate = new DateTime(2020, 3, 5, 11, 30, 22)
+                RecDateText = new DateTime(2020, 3, 5, 11, 30, 22).ToString()
             },
             new UserInfo() {
                 Login = "user2",
                 Password = "qwerty2",
-                RecDate = new DateTime(2020, 3, 5, 12, 30, 22)
+                RecDateText = new DateTime(2020, 3, 5, 12, 30, 22).ToString()
             }
         };
 
