@@ -23,22 +23,6 @@ namespace NancyApp
             //}
 
             HostFactory.Run(x => x.Service<NancyRESTService>());
-
-            //HostFactory.Run(x =>                               //1
-            //{
-
-            //    x.Service<NancyRESTService>(s =>                      //2
-            //    {
-            //        s.ConstructUsing(name => new NancyRESTService()); //3
-            //        s.WhenStarted(tc => tc.Start());           //4 
-            //        s.WhenStopped(tc => tc.Stop());            //5
-            //    });
-            //    x.RunAsLocalSystem();                          //6
-
-            //    x.SetDescription("Alex_F Sample Topshelf Host");      //7
-            //    x.SetDisplayName("Alex_F Stuff");                     //8
-            //    x.SetServiceName("Alex_F Stuff");                     //9
-            //});
         }
     }    
 }
