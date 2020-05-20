@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Nancy;
 using Nancy.Hosting.Self;
 using Nancy.ModelBinding;
@@ -43,6 +45,46 @@ namespace NancyApp
                 var model = this.Bind<UserInfo>();
                 users.Add(model);
                 return users.Count.ToString();
+            });
+        }
+    }
+
+    public class FileInfoModule : NancyModule
+    {
+        public FileInfoModule()
+        {
+            //Get("/users", parameters =>
+            //{
+            //    return users;
+            //});
+
+            //Get("/users/{id}", parameters =>
+            //{
+            //    if (users.Count > 0)
+            //        return users[parameters.id - 1];
+            //    else
+            //        return "";
+            //});
+
+            Post("/files", parameters =>
+            {
+                string request = "";
+
+                if (this.Request.Files != null)
+                {
+                    foreach (var model in this.Request.Files)
+                    {
+                        var filename = Path.Combine(Environment.CurrentDirectory + @"\", model.Name);
+
+                        using (var fileStream = new FileStream(filename, FileMode.Create))
+                        {
+                            model.Value.CopyTo(fileStream);
+                        }
+
+                        request += "Saving " + model.Name + " is success.\r\n";                     
+                    }
+                }
+                return !string.IsNullOrWhiteSpace(request) ? request : "";
             });
         }
     }
